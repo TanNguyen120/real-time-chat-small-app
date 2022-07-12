@@ -1,0 +1,24 @@
+{
+  "name": "real-time-chat-small-app",
+  "version": "1.0.0",
+  "description": "small real time web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startDev": "nodemon sever.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TanNguyen120/real-time-chat-small-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TanNguyen120/real-time-chat-small-app/issues"
+  },
+  "homepage": "https://github.com/TanNguyen120/real-time-chat-small-app#readme",
+  "dependencies": {
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.1"
+  }
+}
