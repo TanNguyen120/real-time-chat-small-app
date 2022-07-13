@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+const userList = {}
 // trang chủ
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/view/index.html');
@@ -17,7 +18,14 @@ io.on('connection', (socket) => {
     socket.emit('welcomeMessage', 'hello there');
     // listen to send message
     socket.on('chatMessage', (message) => {
-        console.log(message);
+        const mes = userList[socket.id] + ' said: ' + message;
+        console.log(mes);
+        socket.broadcast.emit('severMessage', mes);
+    });
+    socket.on('userJoined', (user) => {
+        console.log(user + ' joined');
+        userList[socket.id] = user;
+        socket.broadcast.emit('newUser', user);
     })
 });
 

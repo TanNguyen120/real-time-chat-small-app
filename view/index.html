@@ -12,6 +12,14 @@
 
         <title>Chat client!</title>
     </head>
+    <style>
+        #chatBody>div {
+            padding: 10px;
+            margin: 15px;
+            border: 1px solid gold;
+            background-color: bisque;
+        }
+    </style>
 
     <body>
         <h1>Welcome to real time web chat app</h1>
@@ -39,20 +47,46 @@
             const socket = io();
             const chatBtn = document.getElementById('sendBtn');
             const input = document.getElementById('chatInput');
+            // lenh chen div vao chat body
+            function appendMessage(message) {
+                const body = document.getElementById('chatBody');
+                const htmlMessage = document.createElement('div');
+                htmlMessage.innerText = message;
+                body.append(htmlMessage);
+            }
+            // tap lenh xu ly viec dang nhap ten
+            let person = prompt("Please enter your name", "Harry Potter");
+
+            if (person != null) {
+                socket.emit('userJoined', person);
+                appendMessage("you have joined");
+            }
             // get hello message from socket
             socket.on('welcomeMessage', (message) => {
-                console.log(message);
-                const body = document.getElementById('chatBody');
-                body.append(`sever: ${message}`)
+                const hello = "sever said: " + message;
+                appendMessage(hello);
             });
+
+            // get broadcast message from socket
+            socket.on('severMessage', (message) => {
+                appendMessage(message);
+            });
+            // tap lenh xu ly viec user moi joined
+            socket.on('newUser', (user) => {
+                const message = user + ' have joined';
+                appendMessage(message);
+            })
 
             // tập lệnh xử lý việc gửi message
             chatBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const message = input.value;
+                appendMessage(message);
                 // gui socket emit
                 socket.emit('chatMessage', message);
-            });        
+                input.value = '';
+            });
+
         </script>
     </body>
 
