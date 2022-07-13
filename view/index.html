@@ -25,7 +25,7 @@
                         <label for="exampleInputEmail1" class="form-label">anonymous: </label>
                         <input type="text" class="form-control" id="chatInput">
                     </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="submit" class="btn btn-primary" id="sendBtn">Send</button>
                 </form>
             </div>
         </div>
@@ -37,6 +37,22 @@
         <script src="/socket.io/socket.io.js"></script>"></script>
         <script>
             const socket = io();
+            const chatBtn = document.getElementById('sendBtn');
+            const input = document.getElementById('chatInput');
+            // get hello message from socket
+            socket.on('welcomeMessage', (message) => {
+                console.log(message);
+                const body = document.getElementById('chatBody');
+                body.append(`sever: ${message}`)
+            });
+
+            // tập lệnh xử lý việc gửi message
+            chatBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const message = input.value;
+                // gui socket emit
+                socket.emit('chatMessage', message);
+            });        
         </script>
     </body>
 
